@@ -1,0 +1,34 @@
+# OPTIONAL — not required for local development.
+#
+# Local dev runs the API directly in a venv against Supabase (see README), so
+# Docker is not needed day-to-day. This file is kept for two things:
+#   1. Optional prod-parity testing of the container image locally.
+#   2. The basis for the Railway deploy (same image, different start command).
+#
+# The database is Supabase (cloud) — there is deliberately no postgres service here.
+# Redis is added in Phase 5 when Celery arrives.
+
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  # --- Added in Phase 5 (Celery) ---
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  # worker:
+  #   build: ./backend
+  #   env_file: [./backend/.env]
+  #   command: celery -A app.celery_app worker --loglevel=info
+  #   depends_on: [redis]
+  # beat:
+  #   build: ./backend
+  #   env_file: [./backend/.env]
+  #   command: celery -A app.celery_app beat --loglevel=info
+  #   depends_on: [redis]
