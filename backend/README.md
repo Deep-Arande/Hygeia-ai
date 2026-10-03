@@ -82,8 +82,8 @@ Traceability columns (`langfuse_trace_id`, `prompt_version`) are on `food_logs`,
 These require your own accounts and are left for you to do (or to approve me walking
 you through):
 
-- [ ] **Supabase**: create the project, copy both connection strings into `backend/.env`.
-- [ ] **GitHub**: create the repo, `git init`, push. CI (`.github/workflows/ci.yml`) runs on push.
+- [x] **Supabase**: project created, connection strings in `backend/.env`, schema migrated.
+- [x] **GitHub**: repo connected — https://github.com/Deep-Arande/Hygeia-ai (CI runs on push).
 - [ ] **Railway**: create a project from the repo; it builds `backend/Dockerfile`.
       Set `DATABASE_URL` / `DATABASE_POOL_URL` as Railway variables. (Redis + worker
       services are added in Phase 5.)
