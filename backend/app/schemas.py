@@ -31,3 +31,13 @@ class UserOut(BaseModel):
     goals: dict | None
     health_conditions: dict | None
     created_at: datetime
+
+
+# --- Chat (Phase 1) ---
+class ChatRequest(BaseModel):
+    user_id: int
+    message: str
+
+
+class ChatResponse(BaseModel):
+    reply: str

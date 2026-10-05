@@ -1,15 +1,27 @@
 """FastAPI application entrypoint."""
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, status
 from sqlalchemy import text
 
-from .api import users
+from .api import chat, users
 from .config import settings
 from .db import engine
+from .observability import init_langfuse
 
-app = FastAPI(title=settings.app_name)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize tracing once at startup (no-ops if Langfuse keys are absent).
+    init_langfuse()
+    yield
+
+
+app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
 app.include_router(users.router)
+app.include_router(chat.router)
 
 
 @app.get("/health", tags=["health"])

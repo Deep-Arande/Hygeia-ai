@@ -29,10 +29,29 @@ class Settings(BaseSettings):
     # Pooler connection (app runtime). Falls back to database_url when unset.
     database_pool_url: str | None = None
 
+    # --- AI / agent (Phase 1) ---
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.0-flash"
+    # Bump when the agent's prompts change — stamped on logs for traceability.
+    prompt_version: str = "v1"
+
+    # --- Observability: Langfuse (Phase 1) ---
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = "https://cloud.langfuse.com"
+
     @property
     def runtime_database_url(self) -> str:
         """URL the app uses at runtime — pooler if available, else direct."""
         return self.database_pool_url or self.database_url
+
+    @property
+    def gemini_enabled(self) -> bool:
+        return bool(self.gemini_api_key)
+
+    @property
+    def langfuse_enabled(self) -> bool:
+        return bool(self.langfuse_public_key and self.langfuse_secret_key)
 
 
 settings = Settings()
