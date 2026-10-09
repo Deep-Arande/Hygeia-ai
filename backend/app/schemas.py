@@ -33,9 +33,15 @@ class UserOut(BaseModel):
     created_at: datetime
 
 
+# --- Auth ---
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
+
 # --- Chat (Phase 1) ---
 class ChatRequest(BaseModel):
-    user_id: int
+    # The user is resolved from the bearer token, not the request body.
     message: str
 
 

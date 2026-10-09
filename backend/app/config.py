@@ -40,6 +40,12 @@ class Settings(BaseSettings):
     langfuse_secret_key: str = ""
     langfuse_host: str = "https://cloud.langfuse.com"
 
+    # --- Auth / JWT ---
+    # MUST be overridden in production (set JWT_SECRET in .env). Dev default only.
+    jwt_secret: str = "dev-only-insecure-secret-change-me"
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 60 * 24 * 7  # 7 days (refresh tokens come later)
+
     @property
     def runtime_database_url(self) -> str:
         """URL the app uses at runtime — pooler if available, else direct."""

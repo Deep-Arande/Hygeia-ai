@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, status
 from sqlalchemy import text
 
-from .api import chat, users
+from .api import auth, chat, users
 from .config import settings
 from .db import engine
 from .observability import init_langfuse
@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title=settings.app_name, lifespan=lifespan)
 
+app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(chat.router)
 
